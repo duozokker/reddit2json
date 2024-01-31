@@ -16,7 +16,7 @@ load_dotenv()  # take environment variables from .env.
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description='Process Reddit posts.')
 parser.add_argument('--method', type=str, default='chat', choices=['translate', 'chat'],
-                    help='Method to use for processing text. "translate" uses Deepl, "chat" uses GPT-3.')
+                    help='Method to use for processing text. "translate" uses Deepl, "chat" uses GPT-3.5 Turbo.')
 parser.add_argument('--lang', type=str, default='DE',
                     help='Target language for translation. Only used if method is "translate".')
 args = parser.parse_args()
@@ -50,7 +50,7 @@ def translate_to_german(text):
     data = {
         "auth_key": os.getenv("DEEPL_AUTH_KEY"),
         "text": text,
-        "target_lang": "DE",
+        "target_lang": args.lang,
     }
     response = requests.post(url, data=data)
     response_json = response.json()

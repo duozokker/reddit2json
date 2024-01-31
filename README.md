@@ -24,13 +24,38 @@ pip install -r requirements.txt
 ```
 4. Rename `example.env` to `.env` and fill in your API keys and other settings.
 
-## Usage
 
-Run the script with a list of Reddit post URLs as arguments:
+## Example Calls
+
+To use the `reddit2json.py` script, you need to pass the method you want to use for processing text. The script supports two methods: `translate` and `chat`.
+
+Here are some example calls:
+
+1. To process Reddit posts using the `translate` method:
+
 ```sh
-python reddit2json.py url1 url2 url3
+python reddit2json.py --method translate
 ```
-The script will process the posts and output a JSON file for each post.
+
+This will translate the content of Reddit posts using DeepL.
+
+2. To process Reddit posts using the `chat` method:
+
+```sh
+python reddit2json.py --method chat
+```
+
+This will modify the content of Reddit posts using OpenAI GPT-3.5 Turbo.
+
+3. To translate the content of Reddit posts to a specific language using the `translate` method:
+
+```sh
+python reddit2json.py --method translate --lang ES
+```
+
+This will translate the content of Reddit posts to Spanish using DeepL.
+
+Note: The script reads Reddit post URLs from the `reddit-post.txt` file and generates a single JSON file (`video.json`) containing the processed content of all the posts.
 
 ## Example Files
 

@@ -1,0 +1,5 @@
+praw
+requests
+tqdm
+openai
+python-dotenv

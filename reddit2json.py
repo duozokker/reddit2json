@@ -7,8 +7,20 @@ from tqdm import tqdm
 
 from openai import OpenAI
 from dotenv import load_dotenv
+import argparse
+
 
 load_dotenv()  # take environment variables from .env.
+
+
+# Parse command-line arguments
+parser = argparse.ArgumentParser(description='Process Reddit posts.')
+parser.add_argument('--method', type=str, default='chat', choices=['translate', 'chat'],
+                    help='Method to use for processing text. "translate" uses Deepl, "chat" uses GPT-3.')
+parser.add_argument('--lang', type=str, default='DE',
+                    help='Target language for translation. Only used if method is "translate".')
+args = parser.parse_args()
+
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -45,6 +57,14 @@ def translate_to_german(text):
     return response_json['translations'][0]['text']
 
 
+def process_text(title, text):
+    if args.method == 'translate':
+        title = translate_to_german(title)
+        text = translate_to_german(text)
+    elif args.method == 'chat':
+        title = chat_with_gpt3("Übersetze den folgenden Titel ins Deutsche und passe ihn so an, dass er für die Vorlesung durch ein Text-to-Speech-Programm optimiert ist. Entferne ebenfalls alle Klammern wie (29m) oder (M23) oder (M25) etc. Entferne ebenfalls alle Edits vom Reddit post so nur der pure text da steht:"  + "\n\n" + title  + "\n\n" + "Überarbeiteter Titel:")
+        text = chat_with_gpt3("Übersetze den folgenden Text ins Deutsche und passe ihn so an, dass er für die Vorlesung durch ein Text-to-Speech-Programm optimiert ist. Entferne ebenfalls alle Klammern wie (29m) oder (M23) oder (M25) oder (19) etc. Entferne ebenfalls alle Edits vom Reddit post so nur der pure text da steht. Breche den Text am spannensten Punkt ab damit die Leser sehr neugierig bleiben:"  + "\n\n" + text  + "\n\n" + "Überarbeiteter Text:")
+    return title, text
 
 
 
@@ -73,12 +93,7 @@ lines = list(read_file_line_by_line('./reddit-post.txt'))  # Convert generator t
 
 for line in tqdm(lines, desc="Processing Reddit posts", unit="post"):
     title, text = get_reddit_post(line)
-
-    #title = translate_to_german(title)
-    #text = translate_to_german(text) übersetze folgenden titel auf deutsch:
-
-    title = chat_with_gpt3("Übersetze den folgenden Titel ins Deutsche und passe ihn so an, dass er für die Vorlesung durch ein Text-to-Speech-Programm optimiert ist. Entferne ebenfalls alle Klammern wie (29m) oder (M23) oder (M25) etc. Entferne ebenfalls alle Edits vom Reddit post so nur der pure text da steht:"  + "\n\n" + title  + "\n\n" + "Überarbeiteter Titel:")
-    text = chat_with_gpt3("Übersetze den folgenden Text ins Deutsche und passe ihn so an, dass er für die Vorlesung durch ein Text-to-Speech-Programm optimiert ist. Entferne ebenfalls alle Klammern wie (29m) oder (M23) oder (M25) oder (19) etc. Entferne ebenfalls alle Edits vom Reddit post so nur der pure text da steht. Breche den Text am spannensten Punkt ab damit die Leser sehr neugierig bleiben:"  + "\n\n" + text  + "\n\n" + "Überarbeiteter Text:")
+    title, text = process_text(title, text)
 
     title = title.replace('\n\n', '.')  # replace '\n\n' with ' ' in title
     text = text.replace('\n\n', '.')  # replace '\n\n' with ' ' in text

@@ -37,7 +37,7 @@ Here are some example calls:
 python reddit2json.py --method translate
 ```
 
-This will translate the content of Reddit posts using DeepL.
+This will translate the content of Reddit posts to german using DeepL.
 
 2. To process Reddit posts using the `chat` method:
 

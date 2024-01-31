@@ -28,7 +28,7 @@ def chat_with_gpt3(prompt):
     completion = client.chat.completions.create(
       model="gpt-3.5-turbo",
       messages=[
-            {"role": "system", "content": "Du bist ein Assistent der Englische Reddit Posts Texte sinnvoll auf Deutsch übersetzt."},
+            {"role": "system", "content": f"You are an assistant that meaningfully translates English Reddit post texts into Language:{args.lang} and optimizes them for text-to-speech. The following is a Reddit post that you should translate and optimize for text-to-speech"},
             {"role": "user", "content": prompt}
         ]
     )
@@ -62,8 +62,8 @@ def process_text(title, text):
         title = translate_to_german(title)
         text = translate_to_german(text)
     elif args.method == 'chat':
-        title = chat_with_gpt3("Übersetze den folgenden Titel ins Deutsche und passe ihn so an, dass er für die Vorlesung durch ein Text-to-Speech-Programm optimiert ist. Entferne ebenfalls alle Klammern wie (29m) oder (M23) oder (M25) etc. Entferne ebenfalls alle Edits vom Reddit post so nur der pure text da steht:"  + "\n\n" + title  + "\n\n" + "Überarbeiteter Titel:")
-        text = chat_with_gpt3("Übersetze den folgenden Text ins Deutsche und passe ihn so an, dass er für die Vorlesung durch ein Text-to-Speech-Programm optimiert ist. Entferne ebenfalls alle Klammern wie (29m) oder (M23) oder (M25) oder (19) etc. Entferne ebenfalls alle Edits vom Reddit post so nur der pure text da steht. Breche den Text am spannensten Punkt ab damit die Leser sehr neugierig bleiben:"  + "\n\n" + text  + "\n\n" + "Überarbeiteter Text:")
+        title = chat_with_gpt3(f"Translate the following title into Language: {args.lang} and adjust it so that it is optimized for a lecture by a text-to-speech program. Also remove all parentheses such as (29m) or (M23) or (M25) etc. Also remove all edits from the Reddit post so only the pure text remains:" + "\n\n" + "title" + "\n\n" + "Revised title:")
+        text = chat_with_gpt3(f"Translate the following text into Language: {args.lang} and adjust it so that it is optimized for a lecture by a text-to-speech program. Also remove all parentheses such as (29m) or (M23) or (M25) or (19) etc. Also remove all edits from the Reddit post so only the pure text remains. Break off the text at the most exciting point to keep the readers very curious:" + "\n\n" + "text" + "\n\n" + "Revised text:")
     return title, text
 
 

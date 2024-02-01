@@ -24,6 +24,83 @@ pip install -r requirements.txt
 ```
 4. Rename `example.env` to `.env` and fill in your API keys and other settings.
 
+## Setting up the .env file
+
+### 1. Setting up the Reddit app
+
+1.1. First, you will need to get some credentials from Reddit. These values are:
+
+- REDDIT_CLIENT_ID 
+- REDDIT_CLIENT_SECRET 
+- REDDIT_USERNAME 
+
+You can get these values from [here](https://www.reddit.com/prefs/apps).
+
+1.2. Note that you need to be logged in to your Reddit account. This account cannot be a Google account or any other social login. It must be a Reddit account with a username and password. The next step will be the most essential in this entire section. Avoid any errors here!
+
+1.3. Head over to [this page](https://www.reddit.com/prefs/apps). Once you are here, you should scroll down and click a button saying create another app... (it could be different if it's your first app). Once you click it, you should see:
+
+![Create Application](https://reddit-video-maker-bot.netlify.app/assets/images/create-application-928c440fc080838a593ca150b97c79ea.png)
+
+- Name: you can put in any name, for example: reddit-bot
+- Radio Buttons: where it shows you the three radio buttons, pick the third one (script).
+- Description: put in anything, it does not matter.
+- About URL: link any webpage like https://google.com.
+- Redirect URI: link any webpage like https://google.com.
+
+1.4. Great, you created the app! Now you need to give the values to the bot.
+
+![App Credentials](https://user-images.githubusercontent.com/66544866/173240642-af00257e-4414-4a57-a3be-24443ee7c29f.png)
+
+The text under "personal use script" is your REDDIT_CLIENT_ID, the text right next to SECRET is your REDDIT_CLIENT_SECRET (DO NOT SHARE THIS WITH ANYONE).
+
+The text where it says developers is your REDDIT_USERNAME, and REDDIT_PASSWORD is your Reddit account's password. Your information is not logged.
+
+Once you got all your values fill them in into the .env file that should now be looking like the following:
+
+```
+REDDIT_USER_AGENT= value ✅
+REDDIT_CLIENT_ID= value ✅
+REDDIT_CLIENT_SECRET= value ✅
+
+DEEPL_AUTH_KEY=
+
+OPENAI_API_KEY=
+```
+
+> Content adapted from [Reddit Video Maker Bot Documentation](https://reddit-video-maker-bot.netlify.app/docs/configuring)
+
+
+### 2. Setting up the OpenAI Key
+
+2.1. To get your OpenAI key, you need to sign up on the [OpenAI website](https://beta.openai.com/signup/). After signing up, you can find your API key in the API section of the OpenAI Dashboard.
+
+2.2. Once you have your OpenAI API key, enter it into the .env file:
+
+```
+REDDIT_USER_AGENT= value ✅
+REDDIT_CLIENT_ID= value ✅
+REDDIT_CLIENT_SECRET= value ✅
+
+DEEPL_AUTH_KEY= 
+
+OPENAI_API_KEY= value ✅
+```
+### 3. Setting up the DeepL Key
+
+3.1. To get your DeepL key, you need to create a free account on the [DeepL website](https://www.deepl.com/pro#developer). After creating an account, you can find your API key in your account settings under the "Plan & API" section.
+
+3.2. Once you have your DeepL API key, enter it into the .env file:
+```
+REDDIT_USER_AGENT= value ✅
+REDDIT_CLIENT_ID= value ✅
+REDDIT_CLIENT_SECRET= value ✅
+
+DEEPL_AUTH_KEY= value ✅
+
+OPENAI_API_KEY= value ✅
+```
+Replace `value ✅` with the respective values you received from Reddit, OpenAI and DeepL respectively.
 
 ## Example Calls
 
